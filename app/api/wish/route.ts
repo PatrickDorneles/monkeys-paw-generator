@@ -31,25 +31,23 @@ const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 async function callGeminiWithRetry(
   model: any,
-  contents: any[],
+  promptParts: any[],
   maxRetries = 3,
   initialDelay = 1000
 ) {
-  let lastError: unknown;
+  let lastError: any;
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
       
       const result = await model.generateContent({
-        contents,
-        // @ts-ignore - some versions of the SDK might not support signal
-        signal: controller.signal,
+        contents: [{ role: 'user', parts: promptParts }],
       });
       
       clearTimeout(timeoutId);
       return result;
-    } catch (error: unknown) {
+    } catch (error: any) {
       lastError = error;
       const message = error instanceof Error ? error.message : String(error);
       const name = error instanceof Error ? error.name : "";
@@ -61,7 +59,6 @@ async function callGeminiWithRetry(
 
       if (!isTransient || attempt === maxRetries - 1) break;
 
-      // Exponential backoff
       await delay(initialDelay * Math.pow(2, attempt));
     }
   }
@@ -76,7 +73,10 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: "A wish is required." }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
+    const model = genAI.getGenerativeModel({ 
+      model: "gemini-3.1-flash-lite",
+      systemInstruction: SYSTEM_PROMPT,
+    });
     
     const languageInstruction = locale === "pt" 
       ? "Write the entire response in Portuguese (Brazil)." 
@@ -84,7 +84,7 @@ export async function POST(req: Request) {
 
     const result = await callGeminiWithRetry(
       model, 
-      [{ text: SYSTEM_PROMPT }, { text: languageInstruction }, { text: `The user wishes: "${wish}"` }]
+      [{ text: languageInstruction }, { text: `The user wishes: "${wish}"` }]
     );
 
     const response = await result.response;
@@ -105,13 +105,12 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ story, status });
-  } catch (error: unknown) {
+  } catch (error: any) {
     console.error("Gemini API Error:", error);
     
     const errorMessage = error instanceof Error ? error.message : String(error);
     const errorName = error instanceof Error ? error.name : "";
 
-    // Themed Error Mapping
     if (errorMessage.includes("429")) {
       return NextResponse.json({ 
         story: "The paw's energy is depleted. Its malevolence will return in time...", 
