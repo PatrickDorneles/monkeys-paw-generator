@@ -7,7 +7,7 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function MonkeyPawPage({ params }) {
+export default async function MonkeyPawPage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   
   // Enable static rendering

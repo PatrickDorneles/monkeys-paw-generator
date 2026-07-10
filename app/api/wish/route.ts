@@ -27,6 +27,47 @@ Your output must ALWAYS match this structure, regardless of whether the input wa
 - **[STORY]**: The narrative response (the twisted wish fulfillment, the non-wish refusal, or the injection defense sentence). 
 `;
 
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
+
+async function callGeminiWithRetry(
+  model: any,
+  contents: any[],
+  maxRetries = 3,
+  initialDelay = 1000
+) {
+  let lastError: unknown;
+  for (let attempt = 0; attempt < maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000);
+      
+      const result = await model.generateContent({
+        contents,
+        // @ts-ignore - some versions of the SDK might not support signal
+        signal: controller.signal,
+      });
+      
+      clearTimeout(timeoutId);
+      return result;
+    } catch (error: unknown) {
+      lastError = error;
+      const message = error instanceof Error ? error.message : String(error);
+      const name = error instanceof Error ? error.name : "";
+      
+      const isTransient = 
+        message.includes("429") || 
+        message.includes("503") || 
+        name === "AbortError";
+
+      if (!isTransient || attempt === maxRetries - 1) break;
+
+      // Exponential backoff
+      await delay(initialDelay * Math.pow(2, attempt));
+    }
+  }
+  throw lastError;
+}
+
 export async function POST(req: Request) {
   try {
     const { wish, locale } = await req.json();
@@ -41,16 +82,14 @@ export async function POST(req: Request) {
       ? "Write the entire response in Portuguese (Brazil)." 
       : "Write the entire response in English.";
 
-    const result = await model.generateContent([
-      { text: SYSTEM_PROMPT },
-      { text: languageInstruction },
-      { text: `The user wishes: "${wish}"` },
-    ]);
+    const result = await callGeminiWithRetry(
+      model, 
+      [{ text: SYSTEM_PROMPT }, { text: languageInstruction }, { text: `The user wishes: "${wish}"` }]
+    );
 
     const response = await result.response;
     const text = response.text();
 
-    // Parsing the [STATUS] and [STORY] structure
     const statusMatch = text.match(/\[STATUS\]:\s*(\w+)/i);
     const storyMatch = text.match(/\[STORY\]:\s*([\s\S]*)/i);
 
@@ -66,8 +105,35 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ story, status });
-  } catch (error) {
+  } catch (error: unknown) {
     console.error("Gemini API Error:", error);
-    return NextResponse.json({ error: "The paw remains still... (API Error)" }, { status: 500 });
+    
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    const errorName = error instanceof Error ? error.name : "";
+
+    // Themed Error Mapping
+    if (errorMessage.includes("429")) {
+      return NextResponse.json({ 
+        story: "The paw's energy is depleted. Its malevolence will return in time...", 
+        status: "ERROR" 
+      }, { status: 429 });
+    }
+    if (errorName === "AbortError" || errorMessage.includes("timeout")) {
+      return NextResponse.json({ 
+        story: "The void is silent. The paw hesitates to grant such a request...", 
+        status: "ERROR" 
+      }, { status: 504 });
+    }
+    if (errorMessage.includes("503") || errorMessage.includes("500")) {
+      return NextResponse.json({ 
+        story: "A cosmic disturbance has momentarily silenced the paw...", 
+        status: "ERROR" 
+      }, { status: 503 });
+    }
+    
+    return NextResponse.json({ 
+      story: "The paw remains still... a dark omen of failure.", 
+        status: "ERROR" 
+    }, { status: 500 });
   }
 }

@@ -19,6 +19,7 @@ To ensure quality and consistency, follow this workflow:
 4. **Implementation**: Write the code according to the approved plan.
 5. **Verification**: 
    - Run `npm run build` to ensure type safety and build success.
+   - Run `npm run typecheck` (or check build output) to ensure no TypeScript errors.
    - Run `npm run lint` to ensure code style.
    - Run Prettier to format the code.
 6. **Review**: **Ask for approval** on the implemented changes.
