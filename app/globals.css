@@ -10,6 +10,22 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+
+  @keyframes pulse-crimson {
+    0% { opacity: 0.3; transform: scale(1); }
+    10% { opacity: 0.8; transform: scale(1.1); }
+    20% { opacity: 0.4; transform: scale(1.05); }
+    30% { opacity: 0.9; transform: scale(1.2); }
+    40%, 100% { opacity: 0.3; transform: scale(1); }
+  }
+  @keyframes ghostly-flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    94% { opacity: 0.7; }
+    // Flicker effect
+    96% { opacity: 1; }
+    98% { opacity: 0.5; }
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -23,4 +39,12 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.animate-pulse-crimson {
+  animation: pulse-crimson 3s ease-in-out infinite;
+}
+
+.animate-ghostly-flicker {
+  animation: ghostly-flicker 4s linear infinite;
 }

@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useParams } from "next/navigation";
+import EerieLoading from "./EerieLoading";
 
 export default function WishForm() {
   const t = useTranslations("HomePage");
@@ -41,7 +42,7 @@ export default function WishForm() {
   return (
     <div className="w-full space-y-12 text-center">
       {/* Input Area */}
-      <div className="relative group">
+      <div className={`relative group transition-all duration-1000 ${isLoading ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100"}`}>
         <textarea
           className="w-full bg-[#121212] border border-zinc-800 rounded-lg p-4 text-lg focus:outline-none focus:border-[#8b0000] transition-colors duration-700 resize-none h-32 placeholder-zinc-700"
           placeholder={t("placeholder")}
@@ -55,7 +56,7 @@ export default function WishForm() {
       <button
         onClick={makeWish}
         disabled={isLoading || !wish.trim()}
-        className="relative px-8 py-3 bg-[#8b0000] text-white font-bold uppercase tracking-widest hover:bg-[#a00000] disabled:bg-zinc-900 disabled:text-zinc-600 transition-all duration-500 rounded-sm overflow-hidden group"
+        className={`relative px-8 py-3 bg-[#8b0000] text-white font-bold uppercase tracking-widest hover:bg-[#a00000] disabled:bg-zinc-900 disabled:text-zinc-600 transition-all duration-500 rounded-sm overflow-hidden group ${isLoading ? "opacity-0 pointer-events-none translate-y-[-20px]" : "opacity-100"}`}
       >
         <span className={`relative z-10 ${isLoading ? "opacity-0" : "opacity-100 transition-opacity duration-300"}`}>
           {t("button")}
@@ -68,16 +69,24 @@ export default function WishForm() {
         <div className="absolute inset-0 bg-black/20 translate-y-full group-hover:translate-y-0 transition-transform duration-500" />
       </button>
 
+      {/* Loading Animation */}
+      {isLoading && (
+        <div className="absolute inset-0 flex items-center justify-center z-50">
+          <EerieLoading />
+        </div>
+      )}
+
       {/* Results Container */}
       <div className={`min-h-[200px] transition-all duration-1000 ${story ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
         {story && (
-          <div className="bg-[#121212] border-l-4 border-[#8b0000] p-6 text-left italic leading-relaxed text-zinc-300 shadow-2xl">
-          {story.split('\n').map((para, i) => (
-            <p key={i} className="mb-4 last:mb-0">{para}</p>
-          ))}
+          <div className="bg-[#121212] border-l-4 border-[#8b0000] p-6 text-left italic leading-relaxed text-zinc-300 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000">
+            {story.split('\n').map((para, i) => (
+              <p key={i} className="mb-4 last:mb-0">{para}</p>
+            ))}
           </div>
         )}
       </div>
     </div>
   );
 }
+

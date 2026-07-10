@@ -33,10 +33,15 @@ async function handleRateLimit(request: NextRequest) {
 const i18nMiddleware = createMiddleware(routing);
 
 export default async function proxy(request: NextRequest) {
-  // Only apply rate limiting to the wish API
-  if (request.nextUrl.pathname.startsWith('/api/wish')) {
+  // Only apply rate limiting to the wish API, and only in production
+  if (request.nextUrl.pathname.startsWith('/api/wish') && process.env.NODE_ENV === 'production') {
     const rateLimitResponse = await handleRateLimit(request);
     if (rateLimitResponse) return rateLimitResponse;
+  }
+
+  if (request.nextUrl.pathname.startsWith('/api/wish')) {
+    // Bypass i18n middleware for API routes to prevent locale prefixing (e.g. /en/api/wish)
+    return NextResponse.next();
   }
 
   return i18nMiddleware(request);

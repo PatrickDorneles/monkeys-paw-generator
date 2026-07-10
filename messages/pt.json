@@ -6,6 +6,12 @@
     "button": "Faça um Desejo",
     "error_empty": "Um desejo é necessário.",
     "error_generic": "A pata não respondeu.",
-    "error_connection": "A conexão com o vazio foi interrompida."
+    "error_connection": "A conexão com o vazio foi interrompida.",
+    "loading": {
+      "msg1": "A pata está ouvindo...",
+      "msg2": "Um dedo começa a se dobrar...",
+      "msg3": "O custo está sendo calculado...",
+      "msg4": "O vazio aceita seu apelo..."
+    }
   }
 }

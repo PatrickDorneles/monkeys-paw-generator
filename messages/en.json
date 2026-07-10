@@ -6,6 +6,12 @@
     "button": "Make a Wish",
     "error_empty": "A wish is required.",
     "error_generic": "The paw did not respond.",
-    "error_connection": "The connection to the void was severed."
+    "error_connection": "The connection to the void was severed.",
+    "loading": {
+      "msg1": "The paw is listening...",
+      "msg2": "A finger begins to curl...",
+      "msg3": "The cost is being calculated...",
+      "msg4": "The void accepts your plea..."
+    }
   }
 }
