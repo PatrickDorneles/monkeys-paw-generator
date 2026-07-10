@@ -13,15 +13,16 @@ The Monkey's Paw Generator is a web application where users submit a wish, and a
 ## Development Workflow
 To ensure quality and consistency, follow this workflow:
 
-1. **Branching**: Create a feature branch for any non-trivial feature or fix.
-2. **Planning**: Create a detailed implementation plan and **ask for approval** from the user.
-3. **Implementation**: Write the code according to the approved plan.
-4. **Verification**: 
+1. **Research**: Research both on the project and the internet for any relevant information for the planning or implementation whenever needed.
+2. **Branching**: Create a feature branch for any non-trivial feature or fix.
+3. **Planning**: Create a detailed implementation plan and **ask for approval** from the user.
+4. **Implementation**: Write the code according to the approved plan.
+5. **Verification**: 
    - Run `npm run build` to ensure type safety and build success.
    - Run `npm run lint` to ensure code style.
    - Run Prettier to format the code.
-5. **Review**: **Ask for approval** on the implemented changes.
-6. **Finalization**: If approved, commit and push the modifications. Otherwise, iterate on implementation.
+6. **Review**: **Ask for approval** on the implemented changes.
+7. **Finalization**: If approved, commit and push the modifications. Otherwise, iterate on implementation.
 
 **Important**: At the end of every step (planning, implementation, or commit), provide a concise summary of what has been completed for the feature.
 

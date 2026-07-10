@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "A Pata do Macaco",
+    "subtitle": "Cuidado com o que você deseja...",
+    "placeholder": "Insira seu desejo mais profundo...",
+    "button": "Faça um Desejo",
+    "error_empty": "Um desejo é necessário.",
+    "error_generic": "A pata não respondeu.",
+    "error_connection": "A conexão com o vazio foi interrompida."
+  }
+}

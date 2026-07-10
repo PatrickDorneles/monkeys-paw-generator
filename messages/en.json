@@ -1,0 +1,11 @@
+{
+  "HomePage": {
+    "title": "The Monkey's Paw",
+    "subtitle": "Be careful what you wish for...",
+    "placeholder": "Enter your deepest desire...",
+    "button": "Make a Wish",
+    "error_empty": "A wish is required.",
+    "error_generic": "The paw did not respond.",
+    "error_connection": "The connection to the void was severed."
+  }
+}

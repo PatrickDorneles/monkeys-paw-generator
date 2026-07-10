@@ -31,16 +31,21 @@ Before writing any narrative, analyze the user's input. It must explicitly expre
 
 export async function POST(req: Request) {
   try {
-    const { wish } = await req.json();
+    const { wish, locale } = await req.json();
 
     if (!wish) {
       return NextResponse.json({ error: "A wish is required." }, { status: 400 });
     }
 
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-3.1-flash-lite" });
+    
+    const languageInstruction = locale === "pt" 
+      ? "Write the entire response in Portuguese (Brazil)." 
+      : "Write the entire response in English.";
 
     const result = await model.generateContent([
       { text: SYSTEM_PROMPT },
+      { text: languageInstruction },
       { text: `The user wishes: "${wish}"` },
     ]);
 
@@ -48,7 +53,7 @@ export async function POST(req: Request) {
     const text = response.text();
 
     return NextResponse.json({ story: text });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Gemini API Error:", error);
     return NextResponse.json({ error: "The paw remains still... (API Error)" }, { status: 500 });
   }
