@@ -1,5 +1,9 @@
 # 🐾 The Monkey's Paw Generator
 
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PatrickDorneles/monkeys-paw-generator/main/public/logo.svg" alt="Monkey's Paw Logo" width="200" />
+</p>
+
 A hauntingly beautiful web application that transforms your deepest desires into ironic nightmares. 
 
 ## 🌑 The Concept
