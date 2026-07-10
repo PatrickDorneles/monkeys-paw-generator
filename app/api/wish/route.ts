@@ -35,19 +35,20 @@ async function callGeminiWithRetry(
   maxRetries = 3,
   initialDelay = 1000
 ) {
-  let lastError: any;
+  let lastError: unknown;
   for (let attempt = 0; attempt < maxRetries; attempt++) {
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 15000);
       
+      // Simplified call to avoid potential SDK version mismatches
       const result = await model.generateContent({
         contents: [{ role: 'user', parts: promptParts }],
       });
       
       clearTimeout(timeoutId);
       return result;
-    } catch (error: any) {
+    } catch (error: unknown) {
       lastError = error;
       const message = error instanceof Error ? error.message : String(error);
       const name = error instanceof Error ? error.name : "";
@@ -105,7 +106,7 @@ export async function POST(req: Request) {
     }
 
     return NextResponse.json({ story, status });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Gemini API Error:", error);
     
     const errorMessage = error instanceof Error ? error.message : String(error);
