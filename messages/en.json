@@ -12,6 +12,16 @@
       "msg2": "A finger begins to curl...",
       "msg3": "The cost is being calculated...",
       "msg4": "The void accepts your plea..."
-    }
+    },
+    "share": "Share Your Fate",
+    "share_copied": "Fate copied to clipboard..."
+  },
+  "SharePage": {
+    "title": "A Sealed Fate",
+    "subtitle": "A wish granted, a price paid.",
+    "void_title": "Fate Vanished",
+    "void_msg": "This particular tragedy has dissolved back into the void.",
+    "back_home": "Return to the Paw",
+    "try_your_luck": "Try Your Luck"
   }
 }

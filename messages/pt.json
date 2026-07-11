@@ -12,6 +12,16 @@
       "msg2": "Um dedo começa a se dobrar...",
       "msg3": "O custo está sendo calculado...",
       "msg4": "O vazio aceita seu apelo..."
-    }
+    },
+    "share": "Compartilhe seu Destino",
+    "share_copied": "Destino copiado para a área de transferência..."
+  },
+  "SharePage": {
+    "title": "Um Destino Selado",
+    "subtitle": "Um desejo concedido, um preço pago.",
+    "void_title": "Destino Desvanecido",
+    "void_msg": "Esta tragédia em particular dissolveu-se de volta ao vazio.",
+    "back_home": "Voltar para a Pata",
+    "try_your_luck": "Tente a sua Sorte"
   }
 }
