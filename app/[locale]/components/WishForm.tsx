@@ -79,7 +79,7 @@ export default function WishForm() {
       {/* Results Container */}
       <div className={`min-h-[200px] transition-all duration-1000 ${story ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}>
         {story && (
-          <div className="bg-[#121212] border-l-4 border-[#8b0000] p-6 text-left italic leading-relaxed text-zinc-300 shadow-2xl animate-in fade-in slide-in-from-bottom-4 duration-1000">
+          <div className="bg-[#121212] border-l-4 border-[#8b0000] p-6 text-left italic leading-relaxed text-zinc-300 shadow-2xl font-story animate-in fade-in slide-in-from-bottom-4 duration-1000">
             {story.split('\n').map((para, i) => (
               <p key={i} className="mb-4 last:mb-0">{para}</p>
             ))}

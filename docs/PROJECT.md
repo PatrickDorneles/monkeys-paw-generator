@@ -28,8 +28,8 @@ To ensure quality and consistency, follow this workflow:
 **Important**: At the end of every step (planning, implementation, or commit), provide a concise summary of what has been completed for the feature.
 
 ## Next Tasks / Todos
-- [ ] Implement robust error handling for API timeouts and quota limits.
+- [x] Implement robust error handling for API timeouts and quota limits.
 - [ ] Add a "Share" feature to allow users to share their ironic fates.
-- [ ] Enhance the loading animation with more "eerie" visual effects.
-- [ ] Implement a rate-limiting system to prevent API abuse.
-- [ ] Improve the typography by integrating a specialized Google Font (e.g., "Crimson Text").
+- [x] Enhance the loading animation with more "eerie" visual effects.
+- [x] Implement a rate-limiting system to prevent API abuse.
+- [x] Improve the typography by integrating a specialized Google Font (e.g., "Crimson Text").
